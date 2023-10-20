@@ -1,12 +1,12 @@
 from datetime import datetime
 
-import bcrypt
-from src import db
+from flask_login import UserMixin
 
+from src.extend import bcrypt, db
 
-class User(db.Model):
+class User(UserMixin, db.Model):
 
-    __tablename__ = "users"
+    __tablename__ = "users1"
 
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String, unique=True, nullable=False)

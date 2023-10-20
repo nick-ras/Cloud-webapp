@@ -35,8 +35,7 @@ def register():
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import login_user
 
-from src import db
-import bcrypt
+from src import db, bcrypt
 from src.accounts.models import User
 
 from .forms import LoginForm, RegisterForm
@@ -58,7 +57,7 @@ def login():
 					return render_template("accounts/login.html", form=form)
 	return render_template("accounts/login.html", form=form)
 
-	from flask_login import login_required, login_user, logout_user
+from flask_login import login_required, login_user, logout_user
 
 
 @accounts_bp.route("/logout")
