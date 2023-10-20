@@ -3,8 +3,8 @@ import unittest
 
 from flask.cli import FlaskGroup
 
-from src.extend import app, db, bcrypt
 from src.accounts.models import User
+from src import app, db
 
 cli = FlaskGroup(app)
 
