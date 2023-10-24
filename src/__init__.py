@@ -4,9 +4,12 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
+from dotenv import load_dotenv
+import os
 
 app = Flask(__name__)
-app.config.from_object(config("APP_SETTINGS"))
+load_dotenv() 
+app.config.from_object(os.getenv("APP_SETTINGS"))
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -29,7 +32,11 @@ login_manager.login_message_category = "danger"
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.filter(User.id == int(user_id)).first()
+    try:
+        user_id = int(user_id)
+    except ValueError:
+        return None  # return None if user_id is not an integer
+    return User.query.filter(User.id == user_id).first()
 
 
 ########################

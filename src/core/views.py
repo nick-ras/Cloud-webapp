@@ -8,3 +8,7 @@ core_bp = Blueprint("core", __name__)
 @login_required
 def home():
     return render_template("core/index.html")
+
+@core_bp.route('/locations')
+def locations():
+    return render_template('core/locations.html')
