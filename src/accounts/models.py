@@ -23,3 +23,20 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return f"<email {self.email}>"
+    
+class Box(db.Model):
+
+		__tablename__ = "boxes"
+
+		id = db.Column(db.Integer, primary_key=True)
+		size = db.Column(db.Integer, nullable=False, check=(db.Column('size', db.Integer, CheckConstraint('size IN (1, 2, 3)'))))
+		location = db.Column(db.String(100), nullable=False)
+		in_use = db.Column(db.Boolean, nullable=False, default=False)
+		booked_on = db.Column(db.DateTime, nullable=True)  # assuming you may want to track when the box was booked
+
+		def __init__(self, size, location):
+				self.size = size
+				self.location = location
+
+		def __repr__(self):
+				return f"<Box {self.id} - Size {self.size} - Location {self.location}>"
