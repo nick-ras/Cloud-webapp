@@ -4,6 +4,9 @@ from flask_login import UserMixin
 
 from src import bcrypt, db
 
+from sqlalchemy import CheckConstraint
+
+
 
 class User(UserMixin, db.Model):
 
