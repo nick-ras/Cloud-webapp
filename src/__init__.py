@@ -21,6 +21,7 @@ migrate = Migrate(app, db)
 from src.accounts.views import accounts_bp
 from src.core.views import core_bp
 
+
 app.register_blueprint(accounts_bp)
 app.register_blueprint(core_bp)
 
