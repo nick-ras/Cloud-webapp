@@ -36,14 +36,14 @@ from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import login_user
 
 from src import db, bcrypt
-from src.accounts.models import User, Box
+from src.accounts.models import User, Boxes
 
 from .forms import LoginForm, RegisterForm
 
 
 @accounts_bp.route("/login", methods=["GET", "POST"])
 def login():
-	box = Box(1, "Frederiksberg Rådhus")
+	box = Boxes(1, "Frederiksberg Rådhus")
 	db.create_all()
 	db.session.add(box)
 	db.session.commit()
