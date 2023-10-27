@@ -1,5 +1,8 @@
-source venv/bin/activate
+python -m venv venv
 pip freeze -l > requirements.txt
+pip install python-decouple
+source venv/bin/activate
+
 source .env
 python3 manage.py run
 

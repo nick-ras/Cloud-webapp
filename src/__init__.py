@@ -13,6 +13,7 @@ app.config.from_object(os.getenv("APP_SETTINGS"))
 
 login_manager = LoginManager()
 login_manager.init_app(app)
+
 bcrypt = Bcrypt(app)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
@@ -22,6 +23,7 @@ from src.accounts.views import accounts_bp
 from src.core.views import core_bp
 
 
+
 app.register_blueprint(accounts_bp)
 app.register_blueprint(core_bp)
 
@@ -29,7 +31,6 @@ from src.accounts.models import User
 
 login_manager.login_view = "accounts.login"
 login_manager.login_message_category = "danger"
-
 
 @login_manager.user_loader
 def load_user(user_id):
