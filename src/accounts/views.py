@@ -36,13 +36,18 @@ from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import login_user
 
 from src import db, bcrypt
-from src.accounts.models import User
+from src.accounts.models import User, Box
 
 from .forms import LoginForm, RegisterForm
 
 
 @accounts_bp.route("/login", methods=["GET", "POST"])
 def login():
+	box = Box(1, "Frederiksberg Rådhus")
+	db.create_all()
+	db.session.add(box)
+	db.session.commit()
+	print("after box creation")
 	if current_user.is_authenticated:
 			flash("You are already logged in.", "info")
 			return redirect(url_for("core.home"))
@@ -57,7 +62,7 @@ def login():
 					return render_template("accounts/login.html", form=form)
 	return render_template("accounts/login.html", form=form)
 
-from flask_login import login_required, login_user, logout_user
+	from flask_login import login_required, login_user, logout_user
 
 
 @accounts_bp.route("/logout")
