@@ -4,24 +4,17 @@
     <h1>Available Locations</h1>
     <form method="POST" action="/locations">
         <label for="location">Select a Location:</label>
-        <select id="location" name="location"> 
-            {% for location, count in locations %}
-                <option value="{{ location }}">{{ location }} ({{ count }} available)</option>
-            {% endfor %}
-        </select>
-        <label for="size">Select a Size:</label>
-        <select id="size" name="size"> 
-            <option value="1">Small</option>
-            <option value="2">Medium</option>
-            <option value="3">Big</option>
-        </select>
-        <label for="duration">Select Duration:</label>
-        <select id="duration" name="duration">
-            <option value="6">6 Hours</option>
-            <option value="24">1 Day</option>
-            <option value="48">2 Days</option>
-            <option value="72">3 Days</option>
-        </select>
+				<select id="sizeSelect">
+						<option value="">Select size</option>
+						{% for size in sizes %}
+								<option value="{{ size }}">{{ size }}</option>
+						{% endfor %}
+				</select>
+				
+				<select id="locationSelect">
+						<option value="">Select location</option>
+						<!-- Locations will be filled dynamically using Javascript -->
+				</select>
         <button type="submit">Book</button>
     </form>
 </body>

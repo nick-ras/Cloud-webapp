@@ -1,7 +1,7 @@
 from datetime import datetime
 from flask_login import UserMixin
 from src import bcrypt, db
-from sqlalchemy import CheckConstraint, ForeignKey
+from sqlalchemy import CheckConstraint, ForeignKey, func
 from sqlalchemy.orm import relationship
 
 
@@ -41,10 +41,21 @@ class Boxes(db.Model):
 				user_info = f"User ID {self.user_id} - User Email {self.user.email}" if self.user else "No user assigned"
 				return f"<Boxes {self.id} - Size {self.size} - Location {self.location} - {user_info}>"
 
-class Boxes(db.Model):
-		id = db.Column(db.Integer, primary_key=True)
-		location = db.Column(db.String(100))
-		size = db.Column(db.Integer)
-		in_use = db.Column(db.Boolean, default=False)
-		booked_on = db.Column(db.DateTime)
+		@staticmethod
+		def get_locations_by_size(size):
+				# This query will return all unique locations from the Boxes table having boxes of certain size not currently in use
+				result = db.session.query(Boxes.location).filter(Boxes.in_use == False, Boxes.size == size).group_by(Boxes.location).all()
+				return result
+		
+		@staticmethod
+		def get_locations_by_size(size):
+				# This query will return all unique locations from the Boxes table having boxes of certain size not currently in use
+				result = db.session.query(Boxes.location).filter(Boxes.in_use == False, Boxes.size == size).group_by(Boxes.location).all()
+				return result
+	
+		# @staticmethod
+		# def get_unique_locations():
+		# 		# This query will return all unique locations from the Boxes table along with their sizes and count of boxes which are not currently in use
+		# 		result = db.session.query(Boxes.location, Boxes.size, func.count(Boxes.id)).filter(Boxes.in_use == False).group_by(Boxes.location, Boxes.size).all()
+		# 		return result
                 

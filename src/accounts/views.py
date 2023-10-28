@@ -63,27 +63,29 @@ def logout():
 @accounts_bp.route("/locations", methods=["GET", "POST"])
 @login_required
 def book_box():
-    form = BookBoxForm(request.form)  # Assume you have a form class for booking
-    if form.validate_on_submit():
-        # Get the form data
-        selected_location = form.location.data
-        selected_size = form.size.data
-        selected_duration = form.duration.data
+		form = BookBoxForm(request.form)  # Assume you have a form class for booking
+		if form.validate_on_submit():
+				# Get the form data
+				selected_location = form.location.data
+				selected_size = form.size.data
+				selected_duration = form.duration.data
 
-        # Find an available box that matches the criteria
-        box = Boxes.query.filter_by(location=selected_location, size=selected_size, in_use=False).first()
-        if box:
-            # Update the box status and booked_on time
-            box.in_use = True
-            box.booked_on = datetime.utcnow()
-            db.session.commit()
+				# Find an available box that matches the criteria
+				box = Boxes.query.filter_by(location=selected_location, size=selected_size, in_use=False).first()
+				print(f"box: {box}")
+				if box:
+						# Update the box status and booked_on time
+						box.in_use = True
+						box.booked_on = datetime.utcnow()
+						db.session.commit()
+						# Optionally schedule a task to unbook the box later (see previous examples)
+						# ...
 
-            # Optionally schedule a task to unbook the box later (see previous examples)
-            # ...
+						flash(f"You have booked a {selected_size}-sized box at {selected_location} for {selected_duration} hours.", "success")
+						return redirect(url_for("core.home"))
+				else:
+						flash("No available boxes match your criteria.", "danger")
 
-            flash(f"You have booked a {selected_size}-sized box at {selected_location} for {selected_duration} hours.", "success")
-            return redirect(url_for("core.home"))
-        else:
-            flash("No available boxes match your criteria.", "danger")
-
-    return render_template("accounts/book_box.html", form=form)  # Assuming you have a template for booking
+		selected_size = request.form.get('size')
+		locations_list = Boxes.get_locations_by_size(selected_size)
+		return render_template("core/locations.html", form=form, location_list=locations_list)  # Assuming you have a template for booking
