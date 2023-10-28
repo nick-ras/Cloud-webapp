@@ -3,6 +3,9 @@ from wtforms import EmailField, PasswordField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 
 from src.accounts.models import User
+from flask_wtf import FlaskForm
+from wtforms import IntegerField, StringField, BooleanField, DateTimeField, SubmitField
+from wtforms.validators import DataRequired, Length
 
 
 class RegisterForm(FlaskForm):
@@ -32,7 +35,16 @@ class RegisterForm(FlaskForm):
             self.password.errors.append("Passwords must match")
             return False
         return True
-    
+  class Boxes(db.Model):
+			id = db.Column(db.Integer, primary_key=True)
+			location = db.Column(db.String(100))
+			size = db.Column(db.Integer)
+			in_use = db.Column(db.Boolean, default=False)
+			booked_on = db.Column(db.DateTime)
+		location = StringField('Location', validators=[DataRequired()])
+		size = IntegerField('Size', validators=[DataRequired()])
+		duration = IntegerField('Duration', validators=[DataRequired()])
+		submit = SubmitField('Book Box')
 
 class LoginForm(FlaskForm):
     email = EmailField("Email", validators=[DataRequired(), Email()])

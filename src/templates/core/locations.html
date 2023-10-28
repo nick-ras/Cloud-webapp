@@ -8,13 +8,19 @@
             {% for location, count in locations %}
                 <option value="{{ location }}">{{ location }} ({{ count }} available)</option>
             {% endfor %}
-					
         </select>
         <label for="size">Select a Size:</label>
         <select id="size" name="size"> 
             <option value="1">Small</option>
             <option value="2">Medium</option>
             <option value="3">Big</option>
+        </select>
+        <label for="duration">Select Duration:</label>
+        <select id="duration" name="duration">
+            <option value="6">6 Hours</option>
+            <option value="24">1 Day</option>
+            <option value="48">2 Days</option>
+            <option value="72">3 Days</option>
         </select>
         <button type="submit">Book</button>
     </form>
