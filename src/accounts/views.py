@@ -71,6 +71,7 @@ def book_box():
 				selected_duration = form.duration.data
 
 				# Find an available box that matches the criteria
+				
 				box = Boxes.query.filter_by(location=selected_location, size=selected_size, in_use=False).first()
 				print(f"box: {box}")
 				if box:
