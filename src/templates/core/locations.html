@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <body>
     <h1>Available Locations</h1>
@@ -13,8 +13,55 @@
 				
 				<select id="locationSelect">
 						<option value="">Select location</option>
-						<!-- Locations will be filled dynamically using Javascript -->
 				</select>
+        <button type="submit">Book</button>
+    </form>
+</body>
+</html> -->
+
+<html lang="en">
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#sizeSelect').change(function() {
+            var selectedSize = $(this).val();
+            if (selectedSize) {
+                $.ajax({
+                    url: '/accounts/get-locations',
+                    method: 'POST',
+                    data: { size: selectedSize },
+                    success: function(response) {
+                        var locationSelect = $('#locationSelect');
+                        locationSelect.empty();
+                        locationSelect.append('<option value="">Select location</option>');
+                        response.locations.forEach(function(location) {
+                            locationSelect.append('<option value="' + location + '">' + location + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#locationSelect').empty().append('<option value="">Select location</option>');
+            }
+        });
+    });
+</script>
+</head>
+<body>
+    <h1>Available Locations</h1>
+    <form method="POST" action="/accounts/locations">
+        <label for="location">Select a Location:</label>
+        <select id="sizeSelect" name="size">
+            <option value="">Select size</option>
+            {% for size in sizes %}
+                <option value="{{ size }}">{{ size }}</option>
+            {% endfor %}
+        </select>
+        
+        <select id="locationSelect" name="location">
+            <option value="">Select location</option>
+            <!-- Locations will be filled dynamically using Javascript -->
+        </select>
         <button type="submit">Book</button>
     </form>
 </body>

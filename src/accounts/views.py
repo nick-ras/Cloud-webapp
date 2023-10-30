@@ -1,5 +1,6 @@
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import login_user, current_user, login_required, logout_user
+from flask import jsonify
 from src import db, bcrypt
 from src.accounts.models import User, Boxes
 from src.accounts.forms import BookBoxForm
@@ -52,7 +53,6 @@ def login():
 					return render_template("accounts/login.html", form=form)
 	return render_template("accounts/login.html", form=form)
 
-
 @accounts_bp.route("/logout")
 @login_required
 def logout():
@@ -90,3 +90,10 @@ def book_box():
 		selected_size = request.form.get('size')
 		locations_list = Boxes.get_locations_by_size(selected_size)
 		return render_template("core/locations.html", form=form, location_list=locations_list)  # Assuming you have a template for booking
+
+@accounts_bp.route("/get-locations", methods=["POST"])
+@login_required
+def get_locations():
+    size = request.form.get('size')
+    locations_list = Boxes.get_locations_by_size(size)
+    return jsonify(locations=locations_list)
