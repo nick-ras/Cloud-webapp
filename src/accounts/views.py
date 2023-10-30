@@ -66,8 +66,8 @@ def book_box():
 		form = BookBoxForm(request.form)  # Assume you have a form class for booking
 		if form.validate_on_submit():
 				# Get the form data
-				selected_location = form.location.data
-				selected_size = form.size.data
+				selected_location = form.sizeobj.data
+				selected_size = form.size_post.data
 				selected_duration = form.duration.data
 
 				# Find an available box that matches the criteria
@@ -87,9 +87,8 @@ def book_box():
 				else:
 						flash("No available boxes match your criteria.", "danger")
 
-		selected_size = request.form.get('size')
-		locations_list = Boxes.get_locations_by_size(selected_size)
-		return render_template("core/locations.html", form=form, location_list=locations_list)  # Assuming you have a template for booking
+		get_sizes= Boxes.get_available_sizes()
+		return render_template("core/locations.html", form=form, get_sizes=get_sizes)  # Assuming you have a template for booking
 
 @accounts_bp.route("/get-locations", methods=["POST"])
 @login_required
