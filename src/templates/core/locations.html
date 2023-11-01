@@ -5,26 +5,30 @@
 <head>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script type="text/javascript">
-		$(document).ready(function () { // event listener that waits for the change event on the HTML element with the ID sizeSelect
-			$('#sizeSelect').change(function () { //ID from a select from body
+		$(document).ready(function () {
+			$('#sizeID').change(function () {
 				var selectedSize = $(this).val();
+				console.log("Selected Size:", selectedSize); // For debugging
 				if (selectedSize) {
 					$.ajax({
-						url: '/accounts/get-locations',
+						url: '/get-locations',
 						method: 'POST',
-						data: { size_for_model: selectedSize }, // AJAX call represents the data being sent to the server
+						data: { size: selectedSize },
 						success: function (response) {
-							var locationSelect = $('#locationSelect'); //newly made var
+							console.log("Response received:", response); // For debugging
+							var locationSelect = $('#locationID');
 							locationSelect.empty();
 							locationSelect.append('<option value="">Select location</option>');
-							response.location_from_func.forEach(function (location) {
+							$.each(response.locations, function (index, location) { // Make sure the key matches your JSON response
 								locationSelect.append('<option value="' + location + '">' + location + '</option>');
-								// location_from_func is from views get_locations() and "location" is like x in 'for x in location_from_func' list (db obj with all locations)
 							});
+						},
+						error: function (xhr, status, error) {
+							console.error("Error in AJAX call:", xhr, status, error); // For debugging
 						}
 					});
 				} else {
-					$('#locationSelect').empty().append('<option value="">Select location</option>');
+					$('#locationID').empty().append('<option value="">Select location</option>');
 				}
 			});
 		});
@@ -33,19 +37,28 @@
 
 <body>
 	<h1>Available Locations</h1>
-	<form method="POST" action="/accounts/locations">
+	<form method="POST" action="/core/locations">
 
-		<select id="sizeSelect" name="sizes_get">
+		<select id="sizeID" name="size">
+			<!-- name="sizes_get": The name attributeis used to identify the form data after the form is submitted. When the form containing this <select> is submitted, the selected value from this dropdown will be included in the POST request with sizes_get as the key. -->
 			<option value="">Select size</option>
 			{% for sizeobj in get_sizes %}
+			<!-- get_sizesfrom render_template contructor -->
 			<option value="{{ sizeobj }}">{{ sizeobj | title }}</option>
 			{% endfor %}
 		</select>
 
-		<select id="locationSelect" name="locations_for_size">
+		<select id="locationID" name="location">
 			<option value="">Select location</option>
-			{% for location in locations_for_size %}
+			{% for location in location %}
 			<option value="{{ location }}">{{ location | title }}</option>
+			{% endfor %}
+		</select>
+		<select id="durationID" name="duration">
+			<option value="">Select duration</option>
+			<!-- fixit: insert duration and a for each or for loop-->
+			{% for dura in duration %}
+			<option value="{{ dura }}">{{ dura | title }}</option>
 			{% endfor %}
 		</select>
 		<button type="submit">Book</button>

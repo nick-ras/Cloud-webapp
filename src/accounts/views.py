@@ -1,6 +1,6 @@
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import login_user, current_user, login_required, logout_user
-from flask import jsonify
+
 from src import db, bcrypt
 from src.accounts.models import User, Boxes
 from src.accounts.forms import BookBoxForm
@@ -59,40 +59,3 @@ def logout():
     logout_user()
     flash("You were logged out.", "success")
     return redirect(url_for("accounts.login"))
-
-@accounts_bp.route("/locations", methods=["GET", "POST"])
-@login_required
-def book_box():
-		form = BookBoxForm(request.form)  # Assume you have a form class for booking
-		if form.validate_on_submit():
-				# Get the form data
-				selected_location = form.locationSelect.data
-				selected_size = form.size_post.data
-				selected_duration = form.duration.data
-
-				# Find an available box that matches the criteria
-				
-				box = Boxes.query.filter_by(location=selected_location, size=selected_size, in_use=False).first()
-				print(f"box: {box}")
-				if box:
-						# Update the box status and booked_on time
-						box.in_use = True
-						box.booked_on = datetime.utcnow()
-						db.session.commit()
-						# Optionally schedule a task to unbook the box later (see previous examples)
-						# ...
-
-						flash(f"You have booked a {selected_size}-sized box at {selected_location} for {selected_duration} hours.", "success")
-						return redirect(url_for("core.home"))
-				else:
-						flash("No available boxes match your criteria.", "danger")
-
-		get_sizes= Boxes.get_available_sizes()
-		return render_template("core/locations.html", form=form, get_sizes=get_sizes)  # Assuming you have a template for booking
-
-@accounts_bp.route("/get-locations", methods=["POST"])
-@login_required
-def get_locations():
-    size = request.form.get('size_for_model')
-    locations_list = Boxes.get_locations_by_size(size)
-    return jsonify(location_from_func=locations_list)
