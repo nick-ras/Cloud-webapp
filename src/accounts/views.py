@@ -66,7 +66,7 @@ def book_box():
 		form = BookBoxForm(request.form)  # Assume you have a form class for booking
 		if form.validate_on_submit():
 				# Get the form data
-				selected_location = form.sizeobj.data
+				selected_location = form.locationSelect.data
 				selected_size = form.size_post.data
 				selected_duration = form.duration.data
 
@@ -93,6 +93,6 @@ def book_box():
 @accounts_bp.route("/get-locations", methods=["POST"])
 @login_required
 def get_locations():
-    size = request.form.get('size')
+    size = request.form.get('size_for_model')
     locations_list = Boxes.get_locations_by_size(size)
-    return jsonify(locations=locations_list)
+    return jsonify(location_from_func=locations_list)
