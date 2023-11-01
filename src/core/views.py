@@ -38,7 +38,7 @@ def book_box():
 						box.booked_on = datetime.utcnow()
 						db.session.commit()
 						flash(f"you have booked {box}")
-						return redirect(url_for("core.home"))
+						return redirect(url_for("core.home")) #fixit
 				else:
 						flash("No available boxes match your criteria.", "danger")
 
@@ -48,7 +48,19 @@ def book_box():
 @core_bp.route("/get-locations", methods=["POST"])
 @login_required
 def get_locations():
-		print("in get locatinos")
+		print("in get locations")
 		size = request.form.get('size') #refers to the  data: { size: selectedSize  },
 		locations = Boxes.get_locations_by_size(size)
-		return jsonify(locations)
+		print(locations)
+		
+		#query is tuples, and to make it serializable i make it to a list
+		location_names = [location[0] for location in locations]
+		# locations_list = []
+		# for location in locations:
+		# 		location_dict = {
+		# 				'id': location.id,
+		# 				'location_name': location.location_name,
+		# 				# Include other fields as needed
+		# 		}
+		# 		locations_list.append(location_dict)
+		return jsonify(location_names)

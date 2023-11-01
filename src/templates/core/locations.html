@@ -19,7 +19,7 @@
 							var locationSelect = $('#locationID');
 							locationSelect.empty();
 							locationSelect.append('<option value="">Select location</option>');
-							$.each(response.locations, function (index, location) { // Make sure the key matches your JSON response
+							$.each(response, function (index, location) { // response is just an array now
 								locationSelect.append('<option value="' + location + '">' + location + '</option>');
 							});
 						},
@@ -37,7 +37,7 @@
 
 <body>
 	<h1>Available Locations</h1>
-	<form method="POST" action="/core/locations">
+	<form method="POST" action="/locations">
 
 		<select id="sizeID" name="size">
 			<!-- name="sizes_get": The name attributeis used to identify the form data after the form is submitted. When the form containing this <select> is submitted, the selected value from this dropdown will be included in the POST request with sizes_get as the key. -->
