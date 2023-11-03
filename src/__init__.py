@@ -18,6 +18,13 @@ bcrypt = Bcrypt(app)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
+# Run the update db logic in seperate thread
+import db_update
+from threading import Thread
+db_update_instance = db_update.update_db()
+update_thread = Thread(target=db_update_instance.update_db_infinite)
+update_thread.start()
+
 # Registering blueprints
 from src.accounts.views import accounts_bp
 from src.core.views import core_bp
