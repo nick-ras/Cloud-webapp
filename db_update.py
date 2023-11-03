@@ -16,7 +16,9 @@ class update_db():
 		# Assuming 'boxes' is the table name
 		boxes_table = Table('boxes', metadata, autoload_with=engine)
 		# Get the current time in UTC
-		current_time = datetime.utcnow().replace(tzinfo=pytz.utc)
+		#fixit get curr timezone SELECT CURRENT_TIMEZONE(), datetime.utcnow().replace(tzinfo=pytz.utc)
+		current_time = engine.execute('SELECT CURRENT_TIMEZONE()')
+		print(f"\ncurrent_time from db {current_time.fetchone()[0]}\n")
 		# Build a query to select all rows where 'in_use' is True and 'booked_until_interval15' is in the past
 		query = select(boxes_table).where(
 				(boxes_table.c.in_use == True) &
