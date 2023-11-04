@@ -6,4 +6,5 @@ source venv/bin/activate
 source .env
 python3 manage.py run
 
+
 Python V3.11, Flask V2.2.2, Flask-Login V0.6.0, Flask-Bcrypt V1.0.1, Flask-WTF V1.0.1, Flask-SQLAlchemy V2.5.1 and, Flask-Testing V0.8.1.
