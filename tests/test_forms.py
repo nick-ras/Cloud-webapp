@@ -27,6 +27,8 @@ class RegisterForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if user:
             raise ValidationError('Email already registered. Please use a different one.')
+          
+        
 
 class TestRegisterForm(BaseTestCase):
     def test_validate_success_register_form(self):
@@ -50,10 +52,6 @@ class TestRegisterForm(BaseTestCase):
             email="ad@min.com", password="admin_user", confirm="admin_user"
         )
         self.assertFalse(form.validate())  # Email already exists
-        
-        
-
-
 
 if __name__ == "__main__":
     unittest.main()

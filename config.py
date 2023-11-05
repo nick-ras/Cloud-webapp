@@ -7,6 +7,7 @@ class Config(object):
     DEBUG = False
     TESTING = False
     CSRF_ENABLED = True
+    #not used
     SECRET_KEY = config("SECRET_KEY", default="guess-me")
     SQLALCHEMY_DATABASE_URI = config("DATABASE_URL")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
