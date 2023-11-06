@@ -4,4 +4,10 @@ pip install python-decouple
 
 source .env
 source env/bin/activate
+export APP_SETTINGS=DevelopmentConfig
 python3 manage.py run
+
+source .env
+source env/bin/activate
+export APP_SETTINGS=config.TestingConfig
+python3 manage.py test
