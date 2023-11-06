@@ -4,7 +4,6 @@ from base_test import BaseTestCase
 
 from src.accounts.forms import LoginForm, RegisterForm
 
-from flask import FlaskForm
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
 from wtforms import StringField, PasswordField, validators
 from flask_wtf import FlaskForm

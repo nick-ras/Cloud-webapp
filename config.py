@@ -1,5 +1,6 @@
 from decouple import config
 import os
+#fixit needed?
 DATABASE_URI = config("DATABASE_URL")
 
 
@@ -28,7 +29,7 @@ class DevelopmentConfig(Config):
 class TestingConfig(Config):
     TESTING = True
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = config("DATABASE_URL")
+    SQLALCHEMY_DATABASE_URI = config("TEST_DATABASE_URL")
     BCRYPT_LOG_ROUNDS = 1
     WTF_CSRF_ENABLED = False
 

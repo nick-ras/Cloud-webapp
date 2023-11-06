@@ -29,7 +29,6 @@ update_thread.start()
 from src.accounts.views import accounts_bp
 from src.core.views import core_bp
 
-
 app.register_blueprint(core_bp) #uden prefix er det bare http://127.0.0.1:5000/locations. Ellers url_prefix='/core'
 app.register_blueprint(accounts_bp)
 
