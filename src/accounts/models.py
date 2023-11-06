@@ -16,7 +16,7 @@ class User(UserMixin, db.Model):
 
     def __init__(self, email, password, is_admin=False):
         self.email = email
-        self.password = bcrypt.generate_password_hash(password)
+        self.password = bcrypt.generate_password_hash(password, 12)
         self.created_on = datetime.now()
         self.is_admin = is_admin
 

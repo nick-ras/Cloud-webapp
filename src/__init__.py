@@ -9,21 +9,36 @@ import os
 
 app = Flask(__name__)
 load_dotenv() 
-app.config.from_object(os.getenv("APP_SETTINGS"))
+#overwrites the config.py file with the .env file
+# app.config.from_object(os.getenv("APP_SETTINGS"))
+
 
 login_manager = LoginManager()
 login_manager.init_app(app)
 
+#making instances of the extensions to be used in other files
+
+if os.getenv("FLASK_ENV") == "production":
+		app.config.from_object("config.ProductionConfig")
+elif os.getenv("FLASK_ENV") == "test":
+		app.config.from_object("config.TestingConfig")
+
+elif os.getenv("FLASK_ENV") == "development":
+		app.config.from_object("config.DevelopmentConfig")
+		# Run the update db logic in seperate thread
+else:
+	exit("FLASK_ENV not set")
+ 
 bcrypt = Bcrypt(app)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
-# Run the update db logic in seperate thread
 import db_update
 from threading import Thread
-db_update_instance = db_update.update_db()
-update_thread = Thread(target=db_update_instance.update_db_infinite)
-update_thread.start()
+if os.getenv("FLASK_ENV") == "development":
+	db_update_instance = db_update.update_db()
+	update_thread = Thread(target=db_update_instance.update_db_infinite)
+	update_thread.start()
 
 # Registering blueprints
 from src.accounts.views import accounts_bp
