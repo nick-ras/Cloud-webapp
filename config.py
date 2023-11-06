@@ -1,8 +1,5 @@
 from decouple import config
 import os
-#fixit needed?
-DATABASE_URI = config("DATABASE_URL")
-
 
 class Config(object):
     DEBUG = False
