@@ -3,12 +3,5 @@ pip freeze -l > requirements.txt
 pip install python-decouple
 
 source .env
-<<<<<<< HEAD
 source env/bin/activate
 python3 manage.py run
-=======
-python3 manage.py run
-
-
-Python V3.11, Flask V2.2.2, Flask-Login V0.6.0, Flask-Bcrypt V1.0.1, Flask-WTF V1.0.1, Flask-SQLAlchemy V2.5.1 and, Flask-Testing V0.8.1.
->>>>>>> 81c9c9645b91124c807f80588ac0d8a4091a1dd9
