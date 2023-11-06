@@ -11,8 +11,7 @@ cli = FlaskGroup(app)
 
 @cli.command("test")
 def test():
-	print("Running tests...")
-	app.config.from_object("config.TestingConfig")
+	print("Running tests from manage.py cli command test")
 	# Rest of your testing setup code
 	tests = unittest.TestLoader().discover("tests")
 	result = unittest.TextTestRunner(verbosity=2).run(tests)

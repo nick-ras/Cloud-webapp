@@ -14,8 +14,6 @@ class Config(object):
     DEBUG_TB_ENABLED = False
     DEBUG_TB_INTERCEPT_REDIRECTS = False
 
-
-
 class DevelopmentConfig(Config):
     DEVELOPMENT = True
     DEBUG = True
