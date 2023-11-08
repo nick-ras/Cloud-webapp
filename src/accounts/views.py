@@ -3,7 +3,6 @@ from flask_login import login_user, current_user, login_required, logout_user
 
 from src import db, bcrypt
 from src.accounts.models import User, Boxes
-from src.accounts.forms import BookBoxForm
 from .forms import LoginForm, RegisterForm
 from datetime import datetime
 
@@ -29,16 +28,6 @@ def register():
 
 @accounts_bp.route("/login", methods=["GET", "POST"])
 def login():
-# 	tivoli_box = Boxes(size=2, location='Tivoli Gardens, Copenhagen', in_use=False, )
-# 	mermaid_box = Boxes(size=1, location='The Little Mermaid, Copenhagen')
-# 	nyhavn_box = Boxes(size=3, location='Nyhavn, Copenhagen')
-# 	# Assuming you have a Session class ready for adding and committing
-# 	db.create_all() #when making changes to the database
-# 	db.session.add(tivoli_box)
-# 	db.session.add(mermaid_box)
-# 	db.session.add(nyhavn_box)
-# 	db.session.commit()
-# 	print("after box creation")
 	if current_user.is_authenticated:
 			flash("You are already logged in.", "info")
 			return redirect(url_for("core.home"))
