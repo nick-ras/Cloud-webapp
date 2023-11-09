@@ -56,9 +56,8 @@
 		</select>
 		<select id="durationID" name="duration">
 			<option value="">Select duration</option>
-			<!-- fixit: insert duration and a for each or for loop-->
 			{% for dura in duration %}
-			<option value="{{ dura }}">{{ dura | title }}</option>
+			<option value="{{ dura }}">{{ dura }} hours</option>
 			{% endfor %}
 		</select>
 		<button type="submit">Book</button>

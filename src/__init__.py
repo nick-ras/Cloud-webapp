@@ -10,7 +10,7 @@ import os
 
 app = Flask(__name__)
 # sets testing or dev og prod environment from config.py, which is set in the .env file
-app.config.from_object(config("APP_SETTINGS"))
+app.config.from_object(config('APP_SETTINGS'))
 load_dotenv() 
 #overwrites the config.py file with the .env file
 # app.config.from_object(os.getenv("APP_SETTINGS"))

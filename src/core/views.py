@@ -18,7 +18,7 @@ def home():
 @login_required
 def book_box():
 		form = BookBoxForm(request.form)  # Assume you have a form class for booking
-		duration = {6, 12, 24, 48}
+		duration_opt = {6, 12, 24, 48}
 		if form.validate_on_submit():
 				# Get the form data
 				location = form.location.data
@@ -27,7 +27,7 @@ def book_box():
 				print(f"location {location} size {size}")
 				# Find an available box that matches the criteria
 				
-				box = box = Boxes.query.filter_by(location=location, size=size, in_use=False).with_for_update().first()
+				box = Boxes.query.filter_by(location=location, size=size, in_use=False).with_for_update().first()
 				if box:
 						box.in_use = True
 						#fixit: update username on box table
@@ -43,7 +43,7 @@ def book_box():
 						flash("No available boxes match your criteria.", "danger")
 
 		get_sizes= Boxes.get_available_sizes()
-		return render_template("core/locations.html", form=form, get_sizes=get_sizes, duration=duration)  # Assuming you have a template for booking 
+		return render_template("core/locations.html", form=form, get_sizes=get_sizes, duration=duration_opt)  # Assuming you have a template for booking 
 
 @core_bp.route("/get-locations", methods=["POST"])
 @login_required
