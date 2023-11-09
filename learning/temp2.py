@@ -1,8 +1,8 @@
 import time
 
 def request():
-		time.sleep(10)
-		return 10
+    time.sleep(10)
+    return 10
 
 def main_function():
 		response = request()

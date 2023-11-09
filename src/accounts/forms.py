@@ -36,6 +36,9 @@ class RegisterForm(FlaskForm):
             return False
         return True
 
+    def test():
+        return "test"
+        
 class BookBoxForm(FlaskForm):
 		location = StringField('Location', validators=[DataRequired()])
 		size = IntegerField('Size', validators=[DataRequired()])
