@@ -1,27 +1,28 @@
 # conftest.py
-import config, os, pytest, sys
-sys.path.append('/home/VMNick1/webapp2/src')
-from src import create_app, db, bcrypt, login_manager, migrate
-from flask import url_for
+import config, pytest, sys
+from src import create_app, db
 
-@pytest.fixture
-def start():
-    app = create_app(configs=config.TestingConfig)
+
+#The setup method creates all your tables; authors and articles tables. It then defines the session, which is the Session object in SQLAlchemy in which the conversation with the database occurs
+
+
+def setup_func():#
+    app = create_app(config.TestingConfig)
+    with app.app_context():
+        db.create_all()
+        session = db.session
+        yield session
+        db.session.remove()
+        db.drop_all()
+    session = app.test_client()
     app.testing = True
-    return app
+    yield app
 
-@pytest.fixture
-def test_register(client):
-    # Create test data for the form
-    test_data = {
-                    "email": os.getenv("TEST_EMAIL"),
-                    "password": os.getenv("TEST_PASSWORD"),
-                    "confirm_password": os.getenv("TEST_PASSWORD")
-    }
-
-    # Make a POST request to the register endpoint
-    response = client.post(url_for('auth.register'), data=test_data)
-
-    # Assertions to check if the register was successful
-    assert response.status_code == 200
-    # Additional assertions based on the behavior of your register function
+@pytest.fixture(autouse=True)
+def before_and_after():
+    # Before each test
+    print("Before each test")
+    setup_func()
+    yield
+    # After each test
+    print("After each test")    
