@@ -20,15 +20,9 @@ class DevelopmentConfig(Config):
     WTF_CSRF_ENABLED = False
     DEBUG_TB_ENABLED = True
 
-
 class TestingConfig(Config):
     TESTING = True
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = config("TEST_DATABASE_URL")
     BCRYPT_LOG_ROUNDS = 1
     WTF_CSRF_ENABLED = False
-
-
-class ProductionConfig(Config):
-    DEBUG = False
-    DEBUG_TB_ENABLED = False
