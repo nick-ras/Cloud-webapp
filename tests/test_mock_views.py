@@ -1,4 +1,5 @@
 
+from flask import Flask, jsonify, request
 import pytest
 from unittest.mock import patch
 
@@ -6,21 +7,29 @@ from learning.temp2 import main_function, create_player
 import learning.temp2 as temp2
 import  src.accounts as accounts
 from src.accounts.forms import RegisterForm, BookBoxForm
+from src.core.views import get_locations
 
-# #TRY MYSELF------------------------
-def mock_get():
+# mock testing get _locations() and mocking get_locations_by_size
+# def mock_get():
     
-    return "mock from book box form not needed"
+#     return 1
  
 def test_forms(monkeypatch):
- 
+    app = Flask(__name__)
     # def mock_get(*args, **kwargs):
     #     return Mock_get_locations()
- 
-    monkeypatch.setattr(RegisterForm, "test", mock_get, raising=True)
- 
-    expected_value = "mock from book box form not needed"
-    assert RegisterForm.test() == expected_value
+    with app.test_client() as client:
+        app.testing = True
+        mock_data = {'size': '2'}  # Mock form data
+        with client.session_transaction() as sess:
+            sess['form'] = mock_data  # Set mock form data in session
+        response = client.post('/get-locations', data=mock_data)  # Perform a POST request to the route
+        assert response.status_code == 200  #
+    
+    # monkeypatch.setattr('flask.request.form', mock_data, raising=False)
+
+    # expected_value = jsonify([("Frederik's Church",), ('Nyhavn',), ('Strøget',), ('The Round Tower',), ('Tivoli Gardens',)])
+    # assert get_locations() == expected_value
 
 
 # #TESTS

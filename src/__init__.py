@@ -18,21 +18,6 @@ load_dotenv()
 
 login_manager = LoginManager()
 login_manager.init_app(app)
-
-#making instances of the extensions to be used in other files
-
-# if os.getenv("FLASK_ENV") == "production":
-# 		app.config.from_object("config.ProductionConfig")
-# if os.getenv("FLASK_ENV") == "test":
-# 		print(f"\nsetting testconfig from __init__.py\n")
-# 		app.config.from_object("config.TestingConfig")
-# else:
-# 		app.config.from_object("config.DevelopmentConfig")
-# elif os.getenv("FLASK_ENV") == "development":
-# 		app.config.from_object("config.DevelopmentConfig")
-# 		# Run the update db logic in seperate thread
-# else:
-# 	exit("FLASK_ENV not set")
  
 bcrypt = Bcrypt(app)
 db = SQLAlchemy(app)

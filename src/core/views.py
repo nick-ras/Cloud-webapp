@@ -8,7 +8,6 @@ from datetime import datetime, timedelta
 
 core_bp = Blueprint("core", __name__)
 
-
 @core_bp.route("/")
 @login_required
 def home():
@@ -48,19 +47,10 @@ def book_box():
 @core_bp.route("/get-locations", methods=["POST"])
 @login_required
 def get_locations():
-		print("in get locations")
 		size = request.form.get('size') #refers to the  data: { size: selectedSize  },
+		print(f"size: {size} - {type(size)}")
 		locations = Boxes.get_locations_by_size(size)
-		print(locations)
-		
+		print(f"locations: {locations}")
 		#query is tuples, and to make it serializable i make it to a list
 		location_names = [location[0] for location in locations]
-		# locations_list = []
-		# for location in locations:
-		# 		location_dict = {
-		# 				'id': location.id,
-		# 				'location_name': location.location_name,
-		# 				# Include other fields as needed
-		# 		}
-		# 		locations_list.append(location_dict)
 		return jsonify(location_names)

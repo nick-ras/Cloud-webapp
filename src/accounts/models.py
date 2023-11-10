@@ -50,7 +50,8 @@ class Boxes(db.Model):
 						.filter(Boxes.in_use == False)
 						.group_by(Boxes.size)
 						.all()
-    )		
+    )
+				print("result", result)
     # The query result will be a list of tuples, each containing one size.
     # You might want to extract the sizes from the tuples into a simple list.
 				available_sizes = [item[0] for item in result]
