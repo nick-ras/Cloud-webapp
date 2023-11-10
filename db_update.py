@@ -26,7 +26,7 @@ class update_db():
 		# current_time = select([func.current_timestamp()])
 		server_time_all = session.execute(text("SELECT CURRENT_TIMESTAMP"))
 		server_time = server_time_all.fetchone()[0]
-		print(f"\nserver_time from db {server_time}\n")
+		#print(f"\nserver_time from db {server_time}\n")
 		# print(f"\ncurrent_time from db {server_time}\n")
 		# Build a query to select all rows where 'in_use' is True and 'booked_until_interval15' is in the past
 		query = select(box_tbl).where(
@@ -53,5 +53,5 @@ class update_db():
 	def update_db_infinite(self):
 		while (1):
 			self.update_box_script()
-			print("Updated box statuses in 15 minutes loop")
+			#print("Updated box statuses in 15 minutes loop")
 			time.sleep(900)

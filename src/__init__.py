@@ -10,12 +10,14 @@ login_manager = LoginManager()
 bcrypt = Bcrypt()
 migrate = Migrate()
 
-def create_app(config_name):
+def create_app(configarg):
     app = Flask(__name__)
     
-    # Load configuration from .env file or the default
-    app.config.from_object(config_name)
-
+    if configarg == "TestingConfig":
+        app.config.from_object(configarg)
+    else:
+        app.config.from_object("config.DevelopmentConfig")
+        
     # Initialize plugins
     db.init_app(app)
     login_manager.init_app(app)
