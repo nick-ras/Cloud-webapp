@@ -14,7 +14,10 @@ def create_app():
     app = Flask(__name__)
     
     # Load configuration from .env file or the default
-    app.config.from_object(config('APP_SETTINGS', default='config.DevelopmentConfig'))
+    if (config('APP_SETTINGS') == 'config.TestingConfig'):
+        app.config.from_object(config('APP_SETTINGS'))
+    elif (config('APP_SETTINGS') == 'config.DevelopmentConfig'):
+        app.config.from_object(config('APP_SETTINGS'))
 
     # Initialize plugins
     db.init_app(app)

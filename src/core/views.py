@@ -47,9 +47,9 @@ def book_box():
 @core_bp.route("/get-locations", methods=["POST"])
 @login_required
 def get_locations():
-		size = request.form.get('size') #refers to the  data: { size: selectedSize  },
-		print(f"size: {size} - {type(size)}")
-		locations = Boxes.get_locations_by_size(size)
+		sizes = request.form.get('size') #refers to the  data: { size: selectedSize  },
+		print(f"sizes: {sizes} - {type(sizes)}")
+		locations = Boxes.get_locations_by_size(sizes)
 		print(f"locations: {locations}")
 		#query is tuples, and to make it serializable i make it to a list
 		location_names = [location[0] for location in locations]
