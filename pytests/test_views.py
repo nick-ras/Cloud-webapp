@@ -1,15 +1,12 @@
 
-import os, sys
+import os
 from flask import Flask, jsonify, request, url_for
 import pytest
 from unittest.mock import patch
-from learning.temp2 import main_function, create_player
+from learning import main_function
 import learning.temp2 as temp2
-import  src.accounts as accounts
-from src.accounts.forms import RegisterForm, BookBoxForm
-from src.accounts.models import Boxes
-from src.core.views import get_locations
-from src import create_app, db
+import src.accounts as accounts
+from src import create_app, db, Boxes, get_locations
 from .conftest import setup_func
 
 def test_main_function(monkeypatch):
@@ -20,9 +17,9 @@ def test_main_function(monkeypatch):
 		expected_value = 100
 		assert main_function() == expected_value
 
-def test_random():
-    setup_func()
-    
+def test_random(setup_func):
+    print(f"setup_func = {setup_func}")
+    print(f"database model = {Boxes}")
     assert 1 == 1
 
 # def test_get_locations_by_size():

@@ -13,7 +13,7 @@ migrate = Migrate()
 def create_app(configarg):
     app = Flask(__name__)
     
-    if configarg == "TestingConfig":
+    if configarg == "config.TestingConfig":
         app.config.from_object(configarg)
     else:
         app.config.from_object("config.DevelopmentConfig")
