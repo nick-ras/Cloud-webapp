@@ -8,6 +8,7 @@ from datetime import datetime
 
 accounts_bp = Blueprint("accounts", __name__)
 
+#checks if user 1. is already validated, 2. if form is submitted and 3. if non of above, then renders accounts/register.html
 @accounts_bp.route("/register", methods=["GET", "POST"])
 def register():
     if current_user.is_authenticated:
