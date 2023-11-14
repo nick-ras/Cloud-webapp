@@ -8,11 +8,13 @@ from datetime import datetime
 
 accounts_bp = Blueprint("accounts", __name__)
 
+
 #checks if user 1. is already validated, 2. if form is submitted and 3. if non of above, then renders accounts/register.html
 @accounts_bp.route("/register", methods=["GET", "POST"])
 def register():
     if current_user.is_authenticated:
         flash("You are already registered.", "info")
+        
         return redirect(url_for("core.home"))
     form = RegisterForm(request.form)
     if form.validate_on_submit():
@@ -34,6 +36,7 @@ def login():
 			return redirect(url_for("core.home"))
 	form = LoginForm(request.form)
 	if form.validate_on_submit():
+            #fixit validate email and pass 
 			user = User.query.filter_by(email=form.email.data).first()
 			if user and bcrypt.check_password_hash(user.password, request.form["password"]):
 					login_user(user)
@@ -48,4 +51,4 @@ def login():
 def logout():
     logout_user()
     flash("You were logged out.", "success")
-    return redirect(url_for("accounts.login"))
+    return redirect(url_for("core.home"))

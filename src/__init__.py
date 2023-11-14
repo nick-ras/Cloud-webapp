@@ -12,6 +12,7 @@ migrate = Migrate()
 
 def create_app(configarg):
     app = Flask(__name__)
+    app.secret_key = config("SECRET_KEY")
     
     if configarg == "config.TestingConfig":
         app.config.from_object(configarg)
@@ -20,6 +21,7 @@ def create_app(configarg):
         
     # Initialize plugins
     db.init_app(app)
+    login_manager.login_view = "accounts.login" 
     login_manager.init_app(app)
     bcrypt.init_app(app)
     migrate.init_app(app, db)

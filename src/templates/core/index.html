@@ -1,5 +1,11 @@
 {% extends "_base.html" %}
 {% block content %}
-
-<h1 class="text-center">Welcome {{current_user.email}}!</h1>
+<html lang="en">
+{% if current_user.is_authenticated %}
+<h1 class="text-center">Welcome {{ current_user.email }}!</h1>
+{% else %}
+<h1 class="text-center">Welcome, Guest! <br>
+	Please login in, you see it in the top right corner</h1>
+<!-- You can include a login or registration form here for unauthenticated users -->
+{% endif %}
 {% endblock %}
