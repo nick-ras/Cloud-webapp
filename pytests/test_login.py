@@ -1,7 +1,7 @@
 import pytest, os, sys
 project_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(project_dir)
-from flask_login import current_user
+from flask_login import current_user, logout_user
 import pytest
 from flask import url_for
 from src import create_app
@@ -15,7 +15,7 @@ def insert_box(session, box):
         session.rollback()
         raise e
 
-def register_and_login(client, email, password):
+def register_and_login(client, email, password, should_pass):
     response = client.post(
         url_for("accounts.register"),
         data={
@@ -27,10 +27,14 @@ def register_and_login(client, email, password):
     )
 
     assert response.status_code == 200
-    assert current_user.is_authenticated
-    assert b"You registered and are now logged in. Welcome!" in response.data
+    if (should_pass==True):
+      assert current_user.is_authenticated
+      assert current_user.email == email
+      assert b"You registered and are now logged in. Welcome!" in response.data
+      return current_user
+    else:
+      assert current_user.is_anonymous
 
-    return current_user
 
 
 
@@ -38,9 +42,16 @@ def test_register_and_login_success(client, session):
     # Register and log in a user using the helper function
     email = "test@example.com"
     password = "testpassword"
-    user = register_and_login(client, email, password)
-    assert user.email == email
+    user = register_and_login(client, email, password, should_pass=True)
+    
+    logout_user()
+    email = "testexample.com"
+    password = "testpassword"
+    user = register_and_login(client, email, password, should_pass=False)
 
+    
+    #make for bad password also
+    
     #most be done before adding boxes
     all_boxes = session.query(Boxes).all()
     assert len(all_boxes) == 30
@@ -50,8 +61,5 @@ def test_register_and_login_success(client, session):
     
     all_boxes = session.query(Boxes).all()
     assert len(all_boxes) == 31
-    
-    
-    # You can perform additional tests on the user or other actions here
-    # For example, you can check user attributes or make authenticated requests
+
 
