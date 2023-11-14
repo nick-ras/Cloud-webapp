@@ -16,7 +16,7 @@ def create_app(configarg):
     
     if configarg == "configs.TestingConfig":
         print ("TestingConfig from create_app")
-        app.config.from_object("configs.TestingConfig")
+        app.config.from_object(configarg)
     else:
         print ("DevelopmentConfig from create_app")
         app.config.from_object("configs.DevelopmentConfig")
