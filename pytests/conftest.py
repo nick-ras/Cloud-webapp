@@ -22,8 +22,8 @@ def db(app, request):
 
     yield _db  # this is where the testing happens!
 
-    with app.app_context():
-        _db.drop_all()
+    # with app.app_context():
+    #     _db.drop_all()
 
 @pytest.fixture(scope='function')
 def session(db, request):
