@@ -32,6 +32,8 @@ def register_and_login(client, email, password):
 
     return current_user
 
+
+
 def test_register_and_login_success(client, session):
     # Register and log in a user using the helper function
     email = "test@example.com"
@@ -39,8 +41,17 @@ def test_register_and_login_success(client, session):
     user = register_and_login(client, email, password)
     assert user.email == email
 
+    #most be done before adding boxes
+    all_boxes = session.query(Boxes).all()
+    assert len(all_boxes) == 30
+    
     new_box = Boxes(size=1, location="Astroid City", in_use=False)
     insert_box(session, new_box)
+    
+    all_boxes = session.query(Boxes).all()
+    assert len(all_boxes) == 31
+    
+    
     # You can perform additional tests on the user or other actions here
     # For example, you can check user attributes or make authenticated requests
 
