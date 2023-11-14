@@ -3,6 +3,7 @@ project_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(project_dir)
 from src import create_app
 from src import db as _db
+from sqlalchemy.orm import scoped_session
 
 @pytest.fixture(scope='session')
 def app():
@@ -21,7 +22,8 @@ def db(app, request):
 
     yield _db  # this is where the testing happens!
 
-    _db.drop_all()
+    with app.app_context():
+        _db.drop_all()
 
 @pytest.fixture(scope='function')
 def session(db, request):
@@ -32,7 +34,7 @@ def session(db, request):
     transaction = connection.begin()
 
     options = dict(bind=connection, binds={})
-    session = db.create_scoped_session(options=options)
+    session = scoped_session(db.sessionmaker(**options))
 
     db.session = session
 
