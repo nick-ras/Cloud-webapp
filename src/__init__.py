@@ -14,10 +14,12 @@ def create_app(configarg):
     app = Flask(__name__)
     app.secret_key = config("SECRET_KEY")
     
-    if configarg == "config.TestingConfig":
-        app.config.from_object(configarg)
+    if configarg == "configs.TestingConfig":
+        print ("TestingConfig from create_app")
+        app.config.from_object("configs.TestingConfig")
     else:
-        app.config.from_object("config.DevelopmentConfig")
+        print ("DevelopmentConfig from create_app")
+        app.config.from_object("configs.DevelopmentConfig")
         
     # Initialize plugins
     db.init_app(app)

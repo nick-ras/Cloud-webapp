@@ -1,5 +1,6 @@
-# conftest.py
-import pytest
+import pytest, os, sys
+project_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+sys.path.append(project_dir)
 from src import create_app
 from src import db as _db
 
@@ -8,7 +9,7 @@ def app():
     """
     Returns session-wide Flask application.
     """
-    return create_app('config.TestingConfig')
+    return create_app("configs.TestingConfig")
 
 @pytest.fixture(scope='session')
 def db(app, request):
