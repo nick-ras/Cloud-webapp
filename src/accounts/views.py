@@ -18,6 +18,7 @@ def register():
         return redirect(url_for("core.home"))
     form = RegisterForm(request.form)
     if form.validate_on_submit():
+        #  automatically generates parameterized SQL queries, including escaping like ' or 1=1; -- and sanitizing input to prevent SQL injection attacks.
         user = User(email=form.email.data, password=form.password.data)
         db.session.add(user)
         db.session.commit()
