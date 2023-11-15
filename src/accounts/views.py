@@ -9,7 +9,7 @@ from datetime import datetime
 accounts_bp = Blueprint("accounts", __name__)
 
 
-#checks if user 1. is already validated, 2. if form is submitted and 3. if non of above, then renders accounts/register.html
+#register route, checks if user is already logged in, if not renders register page
 @accounts_bp.route("/register", methods=["GET", "POST"])
 def register():
     if current_user.is_authenticated:
@@ -30,6 +30,7 @@ def register():
 
     return render_template("accounts/register.html", form=form)
 
+#login route, checks if user is already logged in, if not redirects to login page
 @accounts_bp.route("/login", methods=["GET", "POST"])
 def login():
 	if current_user.is_authenticated:
@@ -47,6 +48,7 @@ def login():
 					return render_template("accounts/login.html", form=form)
 	return render_template("accounts/login.html", form=form)
 
+#logout route, redirects to home page after logout and flashes "You were logged out.
 @accounts_bp.route("/logout")
 @login_required
 def logout():
@@ -54,6 +56,7 @@ def logout():
     flash("You were logged out.", "success")
     return redirect(url_for("core.home"))
 
+#book box route, checks if user is logged in, if not redirects to login page
 @accounts_bp.route("/bookings", methods=["GET"])
 @login_required  # Ensure the user is logged in to access this page
 def bookings():
