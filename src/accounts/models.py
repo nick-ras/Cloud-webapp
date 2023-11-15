@@ -63,3 +63,4 @@ class Boxes(db.Model):
 				result = db.session.query(Boxes.location).filter(Boxes.in_use == False, Boxes.size == size).group_by(Boxes.location).all()
 				return result
                 
+      

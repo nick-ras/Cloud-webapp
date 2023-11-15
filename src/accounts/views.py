@@ -36,7 +36,7 @@ def login():
 			return redirect(url_for("core.home"))
 	form = LoginForm(request.form)
 	if form.validate_on_submit():
-            #fixit validate email and pass 
+            # validate email and pass 
 			user = User.query.filter_by(email=form.email.data).first()
 			if user and bcrypt.check_password_hash(user.password, request.form["password"]):
 					login_user(user)
@@ -51,4 +51,15 @@ def login():
 def logout():
     logout_user()
     flash("You were logged out.", "success")
+    return redirect(url_for("core.home"))
+
+@accounts_bp.route("/bookings", methods=["GET"])
+@login_required  # Ensure the user is logged in to access this page
+def bookings():
+    if current_user.is_authenticated:
+        # db.session.query(Boxes.location).filter(Boxes.in_use == False, Boxes.size == size).group_by(Boxes.location).all()
+        user_boxes = Boxes.query.filter(Boxes.user_id==current_user.id).all()
+        
+        return render_template("accounts/bookings.html", user_boxes=user_boxes)
+
     return redirect(url_for("core.home"))

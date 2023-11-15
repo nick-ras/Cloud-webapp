@@ -1,0 +1,31 @@
+{% extends "_base.html" %}
+
+{% block content %}
+<div class="container">
+	<h1 class="mt-5">Your Booked Boxes</h1>
+	<table class="table mt-4">
+		<thead>
+			<tr>
+				<th>Size</th>
+				<th>Location</th>
+				<th>Booked Until</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for box in user_boxes %}
+			<tr>
+				<td>{{ box.size }}</td>
+				<td>{{ box.location }}</td>
+				<td>
+					{% if box.booked_until_interval15 %}
+					{{ box.booked_until_interval15.strftime("%Y-%m-%d %H:%M:%S") }}
+					{% else %}
+					N/A
+					{% endif %}
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% endblock %}
