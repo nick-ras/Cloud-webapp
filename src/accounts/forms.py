@@ -7,7 +7,7 @@ from flask_wtf import FlaskForm
 from wtforms import IntegerField, StringField, BooleanField, DateTimeField, SubmitField
 from wtforms.validators import DataRequired, Length
 
-
+#register form for new user
 class RegisterForm(FlaskForm):
     email = EmailField(
         "Email", validators=[DataRequired(), Email(message=None), Length(min=6, max=40)]
@@ -38,13 +38,15 @@ class RegisterForm(FlaskForm):
 
     def test():
         return "test"
-        
+
+#box form for booking a box for the user
 class BookBoxForm(FlaskForm):
 		location = StringField('Location', validators=[DataRequired()])
 		size = IntegerField('Size', validators=[DataRequired()])
 		duration = IntegerField('Duration', validators=[DataRequired()])
 		submit = SubmitField('Book Box')
 
+# standard login for user
 class LoginForm(FlaskForm):
     email = EmailField("Email", validators=[DataRequired(), Email()])
     password = PasswordField("Password", validators=[DataRequired()])

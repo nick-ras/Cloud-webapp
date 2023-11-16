@@ -8,13 +8,12 @@ from datetime import datetime, timedelta
 
 core_bp = Blueprint("core", __name__)
 
+#main page
 @core_bp.route("/")
-#@login_required
 def home():
-		#if current_user.is_authenticated:
 		return render_template("core/index.html")
-		#return redirect(url_for("accounts.login"))
 
+#booking a box
 @core_bp.route("/locations", methods=["GET", "POST"])
 @login_required
 def book_box():
@@ -48,6 +47,7 @@ def book_box():
 				return render_template("core/locations.html", form=form, get_sizes=get_sizes, duration=duration_opt)  # Assuming you have a template for booking
 		return redirect(url_for("accounts.login"))
 
+# helper for locations route. It gets the locations available for a given size
 @core_bp.route("/get-locations", methods=["POST"])
 @login_required
 def get_locations():

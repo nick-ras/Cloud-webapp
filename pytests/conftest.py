@@ -5,6 +5,7 @@ from src import create_app
 from src import db as _db
 from sqlalchemy.orm import scoped_session
 
+#make app object available to tests
 @pytest.fixture(scope='session')
 def app():
     """
@@ -12,6 +13,7 @@ def app():
     """
     return create_app("configs.TestingConfig")
 
+#make db for session level
 @pytest.fixture(scope='session')
 def db(app, request):
     """
@@ -25,6 +27,7 @@ def db(app, request):
     # with app.app_context():
     #     _db.drop_all()
 
+#make connection on function level
 @pytest.fixture(scope='function')
 def session(db, request):
     """

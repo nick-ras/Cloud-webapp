@@ -1,6 +1,7 @@
 from flask import url_for
 from bs4 import BeautifulSoup
 
+
 def test_home_page(client):
 		# Assuming you have a test client fixture
 		response = client.get(url_for("core.home"))

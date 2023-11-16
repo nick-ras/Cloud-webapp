@@ -1,13 +1,14 @@
+#changed file name to configs.py so it didnt conflict with the decouple config
 from decouple import config
 import os
 
-#changed name to config.py so it didnt conflict with the decouple config
+#different configs for dev and test
 SQLALCHEMY_DATABASE_URI = config("TEST_DATABASE_URL")
 class Config(object):
     DEBUG = False
     TESTING = False
     CSRF_ENABLED = True
-    # SECRET_KEY = config("SECRET_KEY", default="guess-me")
+    SECRET_KEY = config("SECRET_KEY", default="guess-me")
     SQLALCHEMY_DATABASE_URI = config("DATABASE_URL")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     BCRYPT_LOG_ROUNDS = 12

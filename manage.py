@@ -3,6 +3,7 @@ import unittest
 from flask.cli import FlaskGroup
 from src import create_app
 
+#this is where program are started by running python3 manage.py run or test
 def create_app_with_config():
     config_name = "config.DevelopmentConfig"
     # Check if the second argument in the command line is 'test'

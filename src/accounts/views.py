@@ -6,8 +6,8 @@ from src.accounts.models import User, Boxes
 from .forms import LoginForm, RegisterForm
 from datetime import datetime
 
+#blueprint for account folde
 accounts_bp = Blueprint("accounts", __name__)
-
 
 #register route, checks if user is already logged in, if not renders register page
 @accounts_bp.route("/register", methods=["GET", "POST"])
