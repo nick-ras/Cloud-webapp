@@ -1,0 +1,33 @@
+name: Python application test
+
+on: [push]
+
+jobs:
+  test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x' # or specific version
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Test with pytest
+      run: |
+        pytest
+    - name: Deploy to Azure VM
+    if: success() # This step runs only if previous steps (like tests) were successful
+    uses: appleboy/ssh-action@master
+    with:
+      host: ${{ secrets.AZURE_VM_IP }}
+      username: ${{ secrets.AZURE_VM_USERNAME }}
+      key: ${{ secrets.AZURE_VM_SSH_KEY }}
+      script: |
+        cd path/to/your/app
+        git pull origin main
+        # Any additional commands to restart your application

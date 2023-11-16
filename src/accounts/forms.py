@@ -1,3 +1,5 @@
+from flask import jsonify
+from flask_login import current_user, login_required
 from flask_wtf import FlaskForm
 from wtforms import EmailField, PasswordField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
@@ -40,11 +42,12 @@ class RegisterForm(FlaskForm):
         return "test"
 
 #box form for booking a box for the user
+@login_required
 class BookBoxForm(FlaskForm):
-		location = StringField('Location', validators=[DataRequired()])
-		size = IntegerField('Size', validators=[DataRequired()])
-		duration = IntegerField('Duration', validators=[DataRequired()])
-		submit = SubmitField('Book Box')
+    location = StringField('Location', validators=[DataRequired()])
+    size = IntegerField('Size', validators=[DataRequired()])
+    duration = IntegerField('Duration', validators=[DataRequired()])
+    submit = SubmitField('Book Box')
 
 # standard login for user
 class LoginForm(FlaskForm):

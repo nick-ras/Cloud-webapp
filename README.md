@@ -1,0 +1,3 @@
+This is a flask webapp, that has a db with 2 tables, a users table and a boxes table. I made a frontend website where users can log in and book boxes for 6-48 hours. A realistic scenario could be for storage boxes around the city for getting packages or renting things.
+I use sqlalchemy for securing against sql injection, and FLASK_WTF for CRSF.
+I also my unit and integration tests in the pytests folder.

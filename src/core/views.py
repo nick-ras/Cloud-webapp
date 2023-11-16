@@ -15,7 +15,6 @@ def home():
 
 #booking a box
 @core_bp.route("/locations", methods=["GET", "POST"])
-@login_required
 def book_box():
 		if current_user.is_authenticated:
 				form = BookBoxForm(request.form)  # Assume you have a form class for booking
@@ -45,7 +44,7 @@ def book_box():
 
 				get_sizes= Boxes.get_available_sizes()
 				return render_template("core/locations.html", form=form, get_sizes=get_sizes, duration=duration_opt)  # Assuming you have a template for booking
-		return redirect(url_for("accounts.login"))
+		return redirect(url_for("core.home"))
 
 # helper for locations route. It gets the locations available for a given size
 @core_bp.route("/get-locations", methods=["POST"])

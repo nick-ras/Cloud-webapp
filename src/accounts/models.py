@@ -4,7 +4,7 @@ from src import bcrypt, db
 from sqlalchemy import CheckConstraint, ForeignKey, func
 from sqlalchemy.orm import relationship
 
-#user table schema from azure db
+#user table schema from azure db, and encrypts password including salts. SQLAlchemy ORM used
 class User(UserMixin, db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
@@ -23,7 +23,7 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return f"<email {self.email}>"
 
-#box table schema from azure db, and some methods to get available sizes and locations
+#box table schema from azure db, and some methods to get available sizes and locations. SQLAlchemy ORM used
 class Boxes(db.Model):
 		__tablename__ = "boxes"
 		id = db.Column(db.Integer, primary_key=True)

@@ -50,7 +50,6 @@ def login():
 
 #logout route, redirects to home page after logout and flashes "You were logged out.
 @accounts_bp.route("/logout")
-@login_required
 def logout():
     logout_user()
     flash("You were logged out.", "success")
@@ -58,7 +57,6 @@ def logout():
 
 #book box route, checks if user is logged in, if not redirects to login page
 @accounts_bp.route("/bookings", methods=["GET"])
-@login_required  # Ensure the user is logged in to access this page
 def bookings():
     if current_user.is_authenticated:
         # db.session.query(Boxes.location).filter(Boxes.in_use == False, Boxes.size == size).group_by(Boxes.location).all()
