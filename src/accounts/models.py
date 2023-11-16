@@ -42,26 +42,5 @@ class Boxes(db.Model):
 				user_info = f"User ID {self.user_id} - User Email {self.user.email}" if self.user else "No user assigned"
 				return f"<Boxes {self.id} - Size {self.size} - Location {self.location} - {user_info}>"
 		
-    # gets all unique sizez from db
-		@staticmethod
-		def get_available_sizes():
-				# This query will return all unique sizes from the Boxes table where boxes are not currently in use
-				result = (
-						db.session.query(Boxes.size)
-						.filter(Boxes.in_use == False)
-						.group_by(Boxes.size)
-						.all()
-    )
-				print("result", result)
-    # The query result will be a list of tuples, each containing one size.
-    # You might want to extract the sizes from the tuples into a simple list.
-				available_sizes = [item[0] for item in result]
-				return available_sizes
-		#this fetches all locations for a given size where in_use is false
-		@staticmethod
-		def get_locations_by_size(size):
-				# This query will return all unique locations from the Boxes table having boxes of certain size not currently in use
-				result = db.session.query(Boxes.location).filter(Boxes.in_use == False, Boxes.size == size).group_by(Boxes.location).all()
-				return result
                 
       

@@ -5,6 +5,7 @@ from src import db
 from src.accounts.models import Boxes
 from src.accounts.forms import BookBoxForm
 from datetime import datetime, timedelta
+from ..db_operations.views import find_available_box, update_box_usage, get_available_sizes, get_locations_by_size, db_rollback
 
 core_bp = Blueprint("core", __name__)
 
@@ -27,23 +28,22 @@ def book_box():
 						print(f"location {location} size {size}")
 						# Find an available box that matches the criteria
 						
-						box = Boxes.query.filter_by(location=location, size=size, in_use=False).with_for_update().first()
+						box = find_available_box(location, size)
 						if box:
-								box.in_use = True
-								#fixit: update username on box table
-								box.booked_on = datetime.utcnow()
-								box.user_id = current_user.id
-								box.booked_until_interval15 = datetime.utcnow() + timedelta(hours=duration)
-								db.session.commit()
+								update_box_usage(box, duration, current_user.id)
 								flash(f"you have booked {box.location} {box.size} for {duration} hours", "success")
 								return redirect(url_for("core.home")) #fixit
 						else:
 								# Handle the case where no box is available
-								db.session.rollback()
+								db_rollback()
 								flash("No available boxes match your criteria.", "danger")
 
-				get_sizes= Boxes.get_available_sizes()
-				return render_template("core/locations.html", form=form, get_sizes=get_sizes, duration=duration_opt)  # Assuming you have a template for booking
+				result= get_available_sizes()
+				print("result", result)
+    		# The query result will be a list of tuples, each containing one size.
+    		# You might want to extract the sizes from the tuples into a simple list.
+				available_sizes = [item[0] for item in result]
+				return render_template("core/locations.html", form=form, get_sizes=available_sizes, duration=duration_opt)  # Assuming you have a template for booking
 		return redirect(url_for("core.home"))
 
 # helper for locations route. It gets the locations available for a given size
@@ -52,8 +52,8 @@ def book_box():
 def get_locations():
 		sizes = request.form.get('size') #refers to the  data: { size: selectedSize  },
 		print(f"sizes: {sizes} - {type(sizes)}")
-		locations = Boxes.get_locations_by_size(sizes)
-		print(f"locations: {locations}")
+		locations = get_locations_by_size(sizes)
+		# print(f"locations: {locations}")
 		#query is tuples, and to make it serializable i make it to a list
-		location_names = [location[0] for location in locations]
+		location_names = [loc[0] for loc in locations]
 		return jsonify(location_names)
