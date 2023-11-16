@@ -1,12 +1,14 @@
 import pytest, os, sys
 project_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(project_dir)
+
 from flask_login import current_user, logout_user
 import pytest
 from flask import url_for
 from src import create_app
 from src.accounts.models import User, Boxes
 
+#inserts a box into the boxes table
 def insert_box(session, box):
     try:
         session.add(box)
@@ -15,6 +17,7 @@ def insert_box(session, box):
         session.rollback()
         raise e
 
+#inserts a user into the users table
 def register_and_login(client, email, password, should_pass):
     response = client.post(
         url_for("accounts.register"),
@@ -35,11 +38,9 @@ def register_and_login(client, email, password, should_pass):
     else:
       assert current_user.is_anonymous
 
-
-
-
+#makes different login credentials and tests them with register_and_login function that has asserts
+# Also inserts boxes and checks length (normal users are not suppose to do this though)
 def test_register_and_login_success(client, session):
-    # Register and log in a user using the helper function
     email = "test@example.com"
     password = "testpassword"
     user = register_and_login(client, email, password, should_pass=True)
@@ -49,10 +50,6 @@ def test_register_and_login_success(client, session):
     password = "testpassword"
     user = register_and_login(client, email, password, should_pass=False)
 
-    
-    #make for bad password also
-    
-    #most be done before adding boxes
     all_boxes = session.query(Boxes).all()
     assert len(all_boxes) == 30
     
@@ -61,5 +58,3 @@ def test_register_and_login_success(client, session):
     
     all_boxes = session.query(Boxes).all()
     assert len(all_boxes) == 31
-
-
