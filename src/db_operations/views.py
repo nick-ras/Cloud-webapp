@@ -3,7 +3,6 @@ from ..accounts.models import User, Boxes
 from src import db
 from datetime import datetime, timedelta
 
-
 def register_user(email, password):
     user = User(email=email, password=password)
     db.session.add(user)
