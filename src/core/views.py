@@ -14,6 +14,7 @@ core_bp = Blueprint("core", __name__)
 def home():
 		return render_template("core/index.html")
 
+
 #booking a box
 @core_bp.route("/locations", methods=["GET", "POST"])
 def book_box():
