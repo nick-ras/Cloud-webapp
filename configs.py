@@ -21,6 +21,10 @@ class DevelopmentConfig(Config):
     DEBUG = True
     WTF_CSRF_ENABLED = False
     DEBUG_TB_ENABLED = True
+    
+class DockerConfig(Config):
+    DEVELOPMENT = True
+    DEBUG = False
 
 class TestingConfig(Config):
     TESTING = True

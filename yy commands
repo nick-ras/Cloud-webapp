@@ -9,6 +9,11 @@ python3 manage.py run
 
 source .env
 source env/bin/activate
+export APP_SETTINGS=config.DockerConfig
+python3 manage.py docker
+
+source .env
+source env/bin/activate
 export APP_SETTINGS=config.TestingConfig
 python3 manage.py test
 
