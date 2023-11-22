@@ -15,15 +15,15 @@ def create_app(configarg):
     app = Flask(__name__)
     app.secret_key = config("SECRET_KEY")
     
-    if configarg == "configs.TestingConfig":
+    if configarg == "config.TestingConfig":
         print ("TestingConfig from create_app")
         app.config.from_object(configarg)
-    elif configarg == "configs.DockerConfig":
+    elif configarg == "config.DockerConfig":
         print ("DockerConfig from create_app")
         app.config.from_object(configarg)
     else:
         print ("DevelopmentConfig from create_app")
-        app.config.from_object("configs.DevelopmentConfig")
+        app.config.from_object("config.DevelopmentConfig")
         
     # Initialize plugins
     db.init_app(app)
