@@ -1,6 +1,4 @@
-python -m venv venv
-pip freeze -l > requirements.txt
-pip install python-decouple
+
 
 source .env
 source env/bin/activate
@@ -23,9 +21,3 @@ pytest tests/test_mock_views.py
 #systemlevel installs
 sudo apt-get update && sudo apt-get install -y --no-install-recommends gnupg2 curl && curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add - && curl https://packages.microsoft.com/config/debian/10/prod.list | sudo tee /etc/apt/sources.list.d/mssql-release.list > /dev/null && sudo apt-get update && sudo ACCEPT_EULA=Y apt-get install -y --no-install-recommends msodbcsql17 unixodbc-dev && sudo rm -rf /var/lib/apt/lists/*
 
-#merge all files for chatgpt
-git clone https://github.com/nick-ras/Cloud-webapp.git temp_repo && find temp_repo -type f -not -path '*/.git/*' -exec cat {} + > all_files.txt && rm -Rf temp_repo/
-cat all_files.txt 
-
-#SSH 
-sudo ssh -i ~/.ssh/azure/VM1keypair.pem VMNick1@20.234.93.137
