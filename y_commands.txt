@@ -22,7 +22,8 @@ pytest tests/test_mock_views.py
 sudo apt-get update && sudo apt-get install -y --no-install-recommends gnupg2 curl && curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add - && curl https://packages.microsoft.com/config/debian/10/prod.list | sudo tee /etc/apt/sources.list.d/mssql-release.list > /dev/null && sudo apt-get update && sudo ACCEPT_EULA=Y apt-get install -y --no-install-recommends msodbcsql17 unixodbc-dev && sudo rm -rf /var/lib/apt/lists/*
 
 #Docker
-docker build -t nickras99/webapp1:latest . && docker run -p 80:80 --env-file .env -e APP_SETTINGS=config.DevelopmentConfig nickras99/webapp1:latest
+docker build -t nickras99/webapp1:latest . && docker run -p 5000:5000 --env-file .env -e APP_SETTINGS=config.DevelopmentConfig nickras99/webapp1:latest
+
 docker push nickras99/webapp1:5.0
 
 #check whats inside
