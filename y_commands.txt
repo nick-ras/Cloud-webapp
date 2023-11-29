@@ -3,17 +3,17 @@
 source .env
 source env/bin/activate
 export APP_SETTINGS=config.DevelopmentConfig
-python3 manage.py run
+python3 app.py run
 
 source .env
 source env/bin/activate
 export APP_SETTINGS=config.DockerConfig
-python3 manage.py docker
+python3 app.py docker
 
 source .env
 source env/bin/activate
 export APP_SETTINGS=config.TestingConfig
-python3 manage.py test
+python3 app.py test
 
 source .env
 pytest tests/test_mock_views.py
@@ -23,3 +23,13 @@ sudo apt-get update && sudo apt-get install -y --no-install-recommends gnupg2 cu
 
 #Docker
 docker build -t container-webapp2:3.0 .
+docker push nickras99/webapp1:5.0
+docker run nickras99/webapp1:5.0
+
+#check whats inside
+docker run -it nickras99/webapp1:5.0 /bin/bash
+
+#-d is see inside container
+
+#volumes - for quick changes thats not build but just in normal dir
+-v $(/home/VMNick1/webapp2):/app 

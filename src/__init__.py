@@ -18,9 +18,6 @@ def create_app(configarg):
     if configarg == "config.TestingConfig":
         print ("TestingConfig from create_app")
         app.config.from_object(configarg)
-    elif configarg == "config.DockerConfig":
-        print ("DockerConfig from create_app")
-        app.config.from_object(configarg)
     else:
         print ("DevelopmentConfig from create_app")
         app.config.from_object("config.DevelopmentConfig")
