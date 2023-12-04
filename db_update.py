@@ -9,7 +9,7 @@ from sqlalchemy.orm import sessionmaker
 
 #This is run in its own thread, initiated in src/__init__.py, and runs every 15 minutes to update the db. It checks if a box is in use, and if the booked_until_interval15 is in the past, and if so, sets in_use to false, booked_until_interval15 to None and user_id to None.
 class update_db():
-	def update_box_script(self):
+	def update_box_script():
 		engine = create_engine(os.getenv("DATABASE_URL"))
 		metadata = MetaData()
     
@@ -38,7 +38,8 @@ class update_db():
 		session.close()
 
 	# Run the update logic every 15 minutes
-	def update_db_infinite(self):
+	def update_db_infinite():
 		while (1):
-			self.update_box_script()
+			print("\nUpdating DB\n")
+			update_db.update_box_script()
 			time.sleep(900)

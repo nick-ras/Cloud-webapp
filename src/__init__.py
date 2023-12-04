@@ -1,3 +1,4 @@
+import threading
 from flask import Flask, render_template
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
@@ -5,22 +6,18 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from decouple import config
 
+
 db = SQLAlchemy()
 login_manager = LoginManager()
 bcrypt = Bcrypt()
 migrate = Migrate()
 
 #creation of FLASK app
-def create_app(configarg):
+def create_app():
     app = Flask(__name__)
     app.secret_key = config("SECRET_KEY")
+    app.config.from_object(config("APP_SETTINGS"))
     
-    if configarg == "config.TestingConfig":
-        print ("TestingConfig from create_app")
-        app.config.from_object(configarg)
-    else:
-        print ("DevelopmentConfig from create_app")
-        app.config.from_object("config.DevelopmentConfig")
         
     # Initialize plugins
     db.init_app(app)
@@ -28,7 +25,12 @@ def create_app(configarg):
     login_manager.init_app(app)
     bcrypt.init_app(app)
     migrate.init_app(app, db)
-
+    
+    #clean out booking table
+    from db_update import update_db
+    thread = threading.Thread(name='update_db', target=update_db.update_db_infinite)
+    thread.start()
+    print("Back in app.py after thread.start()")
     # Register blueprints
     from src.accounts.views import accounts_bp
     from src.core.views import core_bp
