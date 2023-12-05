@@ -1,32 +1,27 @@
 
-
+#NORMAL START
 source .env
 source env/bin/activate
 export APP_SETTINGS=config.DevelopmentConfig
 python3 app.py run
 
-source .env
-source env/bin/activate
-export APP_SETTINGS=config.DockerConfig
-python3 app.py docker
-
-source .env
-source env/bin/activate
-export APP_SETTINGS=config.TestingConfig
-python3 app.py test
-
+#PYTEST
 source .env
 pytest tests/test_mock_views.py
+
+#FREEZE
+python3 -m pip freeze > requirements.txt
 
 #Docker
 docker build -t nickras99/webapp1:latest . && docker run -p 8080:8080 --env-file .env -e APP_SETTINGS=config.DevelopmentConfig nickras99/webapp1:latest
 
+##SEE INSIDE
+docker exec 863eac647ace find .. -name "odbc*"
+
+#PUSH
 docker push nickras99/webapp1:5.0
 
 #check whats inside
 docker run -it nickras99/webapp1:5.0 /bin/bash
-
-#-d is see inside container
-
-#volumes - for quick changes thats not build but just in normal dir
--v $(/home/VMNick1/webapp2):/app 
+#WRITE SHELL COMMANDS INSIDE
+docker exec -it 863eac647ace /bin/sh
