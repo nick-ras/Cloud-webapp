@@ -1,7 +1,7 @@
 
 #NORMAL START
 source .env
-source env/bin/activate
+source source .venv/bin/activate
 export APP_SETTINGS=config.DevelopmentConfig
 python3 app.py run
 
@@ -13,7 +13,7 @@ pytest tests/test_mock_views.py
 python3 -m pip freeze > requirements.txt
 
 #Docker
-docker build -t nickras99/webapp1:latest . && docker run -p 8080:8080 --env-file .env -e APP_SETTINGS=config.DevelopmentConfig nickras99/webapp1:latest
+docker build -t nickras99/webapp1:latest . && docker run -p 8080:8080 --env-file .env.docker -e APP_SETTINGS=config.DevelopmentConfig nickras99/webapp1:latest
 
 ##SEE INSIDE
 docker exec 863eac647ace find .. -name "odbc*"
