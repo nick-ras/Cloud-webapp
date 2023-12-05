@@ -1,4 +1,3 @@
-
 #NORMAL START
 source .env
 source source .venv/bin/activate
@@ -13,15 +12,18 @@ pytest tests/test_mock_views.py
 python3 -m pip freeze > requirements.txt
 
 #Docker
-docker build -t nickras99/webapp1:latest . && docker run -p 8080:8080 --env-file .env.docker -e APP_SETTINGS=config.DevelopmentConfig nickras99/webapp1:latest
+docker build --rm -t nickras99/webapp1:latest . && docker run -p 8080:8080 --env-file .env.docker -e APP_SETTINGS=config.DevelopmentConfig nickras99/webapp1:latest
 
 ##SEE INSIDE
 docker exec 863eac647ace find .. -name "odbc*"
 
 #PUSH
-docker push nickras99/webapp1:5.0
+docker push nickras99/webapp1:latest
 
 #check whats inside
 docker run -it nickras99/webapp1:5.0 /bin/bash
 #WRITE SHELL COMMANDS INSIDE
 docker exec -it 863eac647ace /bin/sh
+
+#DELETE
+docker rmi -f $(docker images --filter "dangling=true" -q --no-trunc)
