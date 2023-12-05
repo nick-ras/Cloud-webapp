@@ -26,11 +26,12 @@ def create_app():
     bcrypt.init_app(app)
     migrate.init_app(app, db)
     
-    # #clean out booking table
-    # from db_update import update_db
-    # thread = threading.Thread(name='update_db', target=update_db.update_db_infinite)
-    # thread.start()
-    # print("Back in app.py after thread.start()")
+    #clean out booking table
+    from db_update import update_db
+    thread = threading.Thread(name='update_db', target=update_db.update_db_infinite)
+    thread.start()
+    
+    # print("current user is: ", current_user.username)
     
     # Register blueprints
     from src.accounts.views import accounts_bp
