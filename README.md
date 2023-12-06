@@ -8,7 +8,7 @@ I made a docker file that succesfully creates a docker image that can be used on
 There is a couple of env vars you would have to set like APP_SETTINGS, DATABASE_URL and SECRET_KEY in order for it to work. 
 
 I use virtual environment so you can just install the requierements.txt file in a new environment.
-I have a simple setup where i just execute python with "python3 app.py run".
+I have a simple setup where i just execute python with "python3 app.py run", but check in y_commands file
 
 
-Tests have been implmented in pytests folder, that is run with "pytest tests/test_mock_views.py" for example.
+Tests have been implmented in pytests folder, check in y_commands file for commands

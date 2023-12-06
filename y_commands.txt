@@ -1,12 +1,17 @@
 #NORMAL START
+sudo ssh -i ~/.ssh/azure/VM1keypair.pem VMNick1@20.234.93.137
 source .env
 source source .venv/bin/activate
 export APP_SETTINGS=config.DevelopmentConfig
 python3 app.py run
 
 #PYTEST
+sudo ssh -i ~/.ssh/azure/VM1keypair.pem VMNick1@20.234.93.137
+cd webapp1/
+source .venv/bin/activate
 source .env
-pytest tests/test_mock_views.py
+export APP_SETTINGS=config.TestingConfig
+pytest
 
 #FREEZE
 python3 -m pip freeze > requirements.txt
