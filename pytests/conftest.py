@@ -5,6 +5,7 @@ sys.path.append(project_dir)
 from src import create_app
 from src import db as _db
 from sqlalchemy.orm import scoped_session
+from flask import current_app
 
 #make app object available to tests
 @pytest.fixture()
@@ -16,8 +17,8 @@ def test_client():
     app = create_app()
 
     # Create a test client
-    with app.test_client() as test_client_obj:
-            yield test_client_obj
+    with app.test_client() as test_obj:
+        yield test_obj
 
 # #make connection
 # @pytest.fixture()
