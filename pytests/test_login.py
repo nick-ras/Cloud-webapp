@@ -1,12 +1,9 @@
-import pytest, os, sys
-project_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-sys.path.append(project_dir)
-
-from flask_login import current_user, login_required, logout_user
-import pytest
-from flask import jsonify, url_for
-from src import create_app
-from src.accounts.models import User, Boxes
+# import pytest, os, sys
+# from flask_login import current_user, login_required, logout_user
+# import pytest
+# from flask import jsonify, url_for
+# from src import create_app
+# from src.accounts.models import User, Boxes
 
 # #inserts a box into the boxes table
 # @login_required
