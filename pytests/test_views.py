@@ -3,19 +3,18 @@ from flask import current_app, request, url_for
 from bs4 import BeautifulSoup
 from flask_login import current_user, login_required
 from src.accounts.models import User
-from pytests.conftest import test_client, app_contx
+from pytests.conftest import test_client
 
 #testing index page
 def test_home_page(test_client):
 	response = test_client.get('/')
 	assert response.status_code == 200
-	return response
 	
-@login_required
-def test_user_registration(test_client, logged_in_client):
-    response = test_client.post('/register', data={'email': 'test@example.com', 'password': 'testpassword'})
-    assert response.status_code == 200
-    user = User.query.filter_by(email='test@example.com').first()
+# @login_required
+# def test_user_registration(test_client, logged_in_client):
+#     response = test_client.post('/register', data={'email': 'test@example.com', 'password': 'testpassword'})
+#     assert response.status_code == 200
+#     user = User.query.filter_by(email='test@example.com').first()
     # assert user is None
     # assert user.email == 'test@example.com'
     

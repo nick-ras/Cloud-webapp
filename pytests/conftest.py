@@ -1,20 +1,17 @@
 from distutils import config
 import pytest, os, sys
-project_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-sys.path.append(project_dir)
 from src import create_app, db
 from sqlalchemy.orm import scoped_session
 from flask import current_app
 
-@pytest.fixture()
-def app():
+@pytest.fixture(scope='module')
+def test_client():
+    os.environ['APP_SETTINGS'] = 'config.TestingConfig'
     app = create_app()
-    yield app
-
-@pytest.fixture()
-def test_client(app):
-    with app.test_client() as client:
-        yield client
+    with app.test_client() as testing_client:
+        # Establish an application context
+        with app.app_context():
+            yield testing_client
 
 @pytest.fixture()       
 def logged_in_client(test_client):
@@ -33,16 +30,16 @@ def logged_in_client(test_client):
 
     return response
         
-#make app object available to tests
-@pytest.fixture()
-def app_context_fixture(test_client, logged_in_client):
-    os.environ['APP_SETTINGS'] = 'config.TestingConfig'
-    # Create a test client
-    with test_client.application.app_context() as context:
-        db.create_all()
-        yield context
-        db.session.remove()
-        db.drop_all()
+# #make app object available to tests
+# @pytest.fixture()
+# def db_conn(test_client, logged_in_client):
+#     os.environ['APP_SETTINGS'] = 'config.TestingConfig'
+#     # Create a test client
+#     with test_client.application.app_context() as context:
+#         db.create_all()
+#         yield context
+#         db.session.remove()
+#         db.drop_all()
 
 
 
